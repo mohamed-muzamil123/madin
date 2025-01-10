@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Page</title>
+    <!-- Bootstrap 5.3.0 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABX6hE1pO3lTjsXy8pg6zFq8iwz0k3MVeU8tvXoI0lW5hD1wB9P4bsw" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .button {
+            width: 250px;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+        }
+
+        .modal, .account-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        .modal-content, .account-modal-content {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-content p {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .account-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 45px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .account-icon:hover {
+            background-color: #0056b3;
+        }
+
+        .account-modal-content {
+            text-align: center;
+        }
+
+        .account-modal-content span {
+            display: block;
+            margin: 10px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .account-modal-content button {
+            margin-top: 20px;
+        }
+
+        .close-account-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="account-icon" id="accountIcon">👤</div>
+
+    <div class="d-flex flex-column align-items-center">
+        <div class="button btn btn-primary btn-lg mb-3" id="updatesBtn">Updates</div>
+        <div class="button btn btn-success btn-lg mb-3" id="hifzBtn"></div>
+        <div class="button btn btn-warning btn-lg" id="schoolBtn"></div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <p>Coming Soon!</p>
+            <button class="close-btn btn btn-light" id="closeBtn">Close</button>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div class="account-modal" id="accountModal">
+        <div class="account-modal-content">
+            <button class="close-account-btn" id="closeAccountBtn">&times;</button>
+           
+            <button id="logout" class="btn btn-dark btn-lg" style="margin-top: 10px;">LOGOUT</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gybP0APMQb6kfiLM6FjvV7Ev1p9U5VcBxhWJ5P+9yXThy4pJfY" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0c5++vZ7zJXXABoI4aYbswQFfrrqU8G3aFhcf94T5OGg8dpN" crossorigin="anonymous"></script>
+
+    <script>
+        // Check if user is logged in on page load
+        window.onload = function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                window.location.href = 'index.html'; // Redirect to login page if not logged in
+            }
+        };
+
+        // Logout function
+        document.getElementById('logout').addEventListener('click', () => {
+            localStorage.removeItem('loggedInUser'); // Clear login information
+            window.location.href = '../index.html'; // Redirect to login page
+        });
+
+        const updatesBtn = document.getElementById('updatesBtn');
+        const schoolBtn = document.getElementById('schoolBtn');
+        const hifzBtn = document.getElementById('hifzBtn');
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        const accountIcon = document.getElementById('accountIcon');
+        const accountModal = document.getElementById('accountModal');
+        const closeAccountBtn = document.getElementById('closeAccountBtn');
+
+        updatesBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        schoolBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        hifzBtn.addEventListener('click', () => {
+            window.location.href = '6-month.html'; // Redirect to Hifz page
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+            if (event.target === accountModal) {
+                accountModal.style.display = 'none';
+            }
+        });
+
+        accountIcon.addEventListener('click', () => {
+            accountModal.style.display = 'flex';
+        });
+
+        closeAccountBtn.addEventListener('click', () => {
+            accountModal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
